@@ -1,0 +1,65 @@
+---
+interface Props {
+  label: string;
+  variant?: string;
+  src?: string;
+  width?: number;
+  height?: number;
+}
+const { label, variant = "", src, width = 800, height = 1000 } = Astro.props;
+const hero = variant === "hero-photo" || variant === "article-cover";
+---
+
+<div
+  class:list={["photo-placeholder", variant, { "has-photo": Boolean(src) }]}
+  role={src ? undefined : "img"}
+  aria-label={src ? undefined : `Espaço reservado: ${label}`}
+  data-anim={hero ? undefined : "img-reveal"}
+  data-parallax={variant === "about-photo" ? "" : undefined}
+>
+  {src ? (
+    <img
+      src={src}
+      alt={label}
+      width={width}
+      height={height}
+      loading={hero ? "eager" : "lazy"}
+      fetchpriority={hero ? "high" : "auto"}
+      decoding="async"
+    />
+  ) : (
+    <div class="photo-placeholder-content" data-anim-inner>
+      <svg
+        aria-hidden="true"
+        viewBox="0 0 48 48"
+        width="48"
+        height="48"
+        fill="none"
+      >
+        <rect
+          x="5"
+          y="7"
+          width="38"
+          height="34"
+          rx="4"
+          stroke="currentColor"
+          stroke-width="1.5"
+        />
+        <circle
+          cx="16"
+          cy="17"
+          r="3"
+          stroke="currentColor"
+          stroke-width="1.5"
+        />
+        <path
+          d="m6 35 12-12 8 8 7-9 10 13"
+          stroke="currentColor"
+          stroke-width="1.5"
+        />
+      </svg>
+      <span>{label}</span>
+      <small>Foto a incluir</small>
+    </div>
+  )}
+</div>

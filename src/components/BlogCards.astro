@@ -1,0 +1,30 @@
+---
+import { articles } from "../data/articles";
+import Placeholder from "./Placeholder.astro";
+interface Props { preview?: boolean; }
+const { preview = false } = Astro.props;
+---
+
+<div class:list={["blog-grid", {"blog-grid-preview": preview}]} data-anim-group>
+  {articles.map((article) => (
+    <article class="blog-card" data-anim="fade-up">
+      <a href={`/${article.slug}/`}>
+        <Placeholder
+          label={article.imageLabel}
+          src={article.image}
+          variant="card-photo"
+        />
+      </a>
+      <div class="card-body">
+        <span class="article-category">{article.category}</span>
+        <h3>
+          <a href={`/${article.slug}/`}>{article.title}</a>
+        </h3>
+        <p>{article.description}</p>
+        <a class="text-link" href={`/${article.slug}/`}>
+          Leia mais <span aria-hidden="true">→</span>
+        </a>
+      </div>
+    </article>
+  ))}
+</div>

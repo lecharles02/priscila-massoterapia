@@ -1,0 +1,147 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import Placeholder from "../../components/Placeholder.astro";
+import CTA from "../../components/CTA.astro";
+import About from "../../components/About.astro";
+import { services } from "../../data/services";
+import { focusNotes } from "../../data/focus-notes";
+export function getStaticPaths() {
+  return services.map((service) => ({
+    params: { slug: service.slug },
+    props: { service },
+  }));
+}
+const { service } = Astro.props;
+const steps = [
+  [
+    "Reserva do horário",
+    "Consulte a disponibilidade com Priscila em Campinas e confirme seu horário.",
+  ],
+  ["Conversa inicial", service.preparation],
+  [
+    "Preparação para a sessão",
+    "Confirme o formato, a duração, os produtos utilizados e as orientações para o atendimento.",
+  ],
+  [
+    "Ajuste do conforto",
+    "Combine a intensidade e a posição com o profissional, respeitando suas preferências e seus limites.",
+  ],
+  [
+    "Seu momento de cuidado",
+    "Durante a sessão, comunique qualquer desconforto e peça ajustes sempre que precisar.",
+  ],
+  [
+    "Encerramento e orientação",
+    "Ao final, esclareça dúvidas e converse sobre os detalhes de uma próxima sessão, se desejar.",
+  ],
+];
+const base = Astro.site || new URL("http://localhost:4321");
+const schema = {
+  "@type": "Service",
+  name: `${service.name} em Campinas`,
+  description: service.summary,
+  serviceType: service.name,
+  areaServed: { "@type": "City", name: "Campinas" },
+  provider: { "@id": new URL("/#business", base).href },
+};
+---
+
+<Layout
+  title={`${service.name} em Campinas | Priscila`}
+  description={`${service.summary} Consulte a Priscila em Campinas.`}
+  schema={schema}
+>
+  <section class="service-hero">
+    <div class="container">
+      <nav class="breadcrumb" aria-label="Caminho da página">
+        <a href="/">Home</a>
+        <span aria-hidden="true">/</span>
+        <a href="/especialidades/">Especialidades</a>
+        <span aria-hidden="true">/</span>
+        <span>{service.name}</span>
+      </nav>
+      <div class="split">
+        <Placeholder label={service.name} src={service.image} />
+        <div>
+          <p class="eyebrow">Priscila</p>
+          <h1>
+            {service.name} em Campinas — {service.subtitle}
+          </h1>
+          {service.intro.map((paragraph) => (
+            <p>{paragraph}</p>
+          ))}
+          <CTA />
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="section">
+    <div class="container">
+      <div class="section-heading">
+        <h2>O cuidado em cada detalhe: {service.name}</h2>
+        <p>
+          Conheça os pontos que orientam essa experiência e alinhe suas
+          preferências antes do atendimento.
+        </p>
+      </div>
+      <div class="benefits-grid">
+        {service.focus.map((focus, index) => (
+          <article class="benefit">
+            <span class="feature-number" aria-hidden="true">
+              0{index + 1}
+            </span>
+            <h3>{focus}</h3>
+            <p>{focusNotes[focus]}</p>
+          </article>
+        ))}
+      </div>
+      <div class="center actions">
+        <CTA />
+      </div>
+    </div>
+  </section>
+  <section class="section">
+    <div class="container">
+      <div class="section-heading">
+        <h2>Dúvidas frequentes sobre {service.name.toLowerCase()}</h2>
+        <p>Informações para escolher sua sessão com mais clareza.</p>
+      </div>
+      <div class="faq">
+        {service.faq.map(([question, answer]) => (
+          <details>
+            <summary>
+              <h3>{question}</h3>
+            </summary>
+            <p>{answer}</p>
+          </details>
+        ))}
+      </div>
+      <div class="center actions">
+        <CTA label="Esclareça suas dúvidas" />
+      </div>
+    </div>
+  </section>
+  <section class="section soft-section">
+    <div class="container">
+      <div class="section-heading">
+        <h2>Passo a passo da sua sessão de {service.name.toLowerCase()}</h2>
+        <p>
+          Do agendamento ao encerramento, cada etapa começa com informação e
+          respeito às suas preferências.
+        </p>
+      </div>
+      <div class="steps">
+        {steps.map(([title, body]) => (
+          <article class="step">
+            <h3>{title}</h3>
+            <p>{body}</p>
+          </article>
+        ))}
+      </div>
+      <div class="center actions">
+        <CTA />
+      </div>
+    </div>
+  </section>
+  <About />
+</Layout>

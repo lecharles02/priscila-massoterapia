@@ -1,0 +1,34 @@
+---
+import Placeholder from "./Placeholder.astro";
+import { site } from "../data/site";
+---
+
+<section class="section" aria-labelledby="about-title">
+  <div class="container split">
+    <Placeholder
+      src={site.media.about}
+      width={932}
+      height={1688}
+      label="Priscila, massoterapeuta em Campinas"
+      variant="about-photo"
+    />
+    <div>
+      <h2 id="about-title" data-anim="lines">
+        Sou Priscila. Seu momento começa com <em>atenção de verdade.</em>
+      </h2>
+      <p data-anim="fade-up">
+        Sou massoterapeuta tântrica em Campinas e minha especialidade é a
+        massagem Nuru. Atendo homens que desejam desacelerar e reservar um tempo
+        para si.
+      </p>
+      <p data-anim="fade-up">
+        Gosto de começar com uma conversa: entender o que você procura,
+        esclarecer suas dúvidas e combinar os detalhes da sessão. Também atendo
+        com massagem tântrica e vivência mútua.
+      </p>
+      <a class="button button-gold" href="/sobre-priscila/">
+        Conheça meu trabalho <span aria-hidden="true">→</span>
+      </a>
+    </div>
+  </div>
+</section>

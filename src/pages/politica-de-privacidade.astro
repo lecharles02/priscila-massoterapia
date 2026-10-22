@@ -1,0 +1,56 @@
+---
+import Layout from "../layouts/Layout.astro";
+import { site } from "../data/site";
+---
+
+<Layout
+  title="Política de privacidade | Priscila"
+  description="Informações sobre navegação, links externos e contato pelo WhatsApp no site da Priscila."
+>
+  <section class="page-hero">
+    <div class="container">
+      <h1>Política de privacidade</h1>
+      <p>Informações sobre o funcionamento deste site.</p>
+    </div>
+  </section>
+  <div class="container section prose">
+    <h2>Navegação no site</h2>
+    <p>
+      Este site apresenta informações sobre o trabalho de Priscila. A versão
+      atual não utiliza formulários, cookies de publicidade ou ferramentas
+      próprias de análise de navegação.
+    </p>
+    <h2>Preferência de abertura</h2>
+    <p>
+      O armazenamento da sessão do navegador guarda apenas se a animação de
+      abertura já foi exibida. Não contém dados pessoais e evita repetir essa
+      apresentação durante a visita.
+    </p>
+    <h2>Contato pelo WhatsApp</h2>
+    <p>
+      Os botões de agendamento direcionam você ao WhatsApp. Ao iniciar uma
+      conversa, os dados enviados são tratados pelo serviço externo e pelo
+      atendimento da Priscila. Compartilhe apenas as informações necessárias
+      para o agendamento.
+    </p>
+    <h2>Rotas e serviços externos</h2>
+    <p>
+      Os links para o perfil e as avaliações abrem serviços do Google. A
+      navegação nesses serviços está sujeita às políticas dos respectivos
+      fornecedores. O endereço do atendimento é compartilhado diretamente pelo
+      WhatsApp e não é publicado neste site.
+    </p>
+    <h2>Hospedagem</h2>
+    <p>
+      O provedor de hospedagem pode processar informações técnicas necessárias
+      para entregar as páginas, como endereço IP e registros de acesso, conforme
+      suas políticas e configurações.
+    </p>
+    <h2>Contato</h2>
+    <p>
+      Para dúvidas relacionadas às informações compartilhadas com o atendimento,
+      entre em contato pelo telefone{" "}
+      <a href={`tel:+${site.phoneDigits}`}>{site.phone}</a>.
+    </p>
+  </div>
+</Layout>

@@ -1,0 +1,38 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import ServiceCards from "../../components/ServiceCards.astro";
+import CTA from "../../components/CTA.astro";
+import Locations from "../../components/Locations.astro";
+import { services } from "../../data/services";
+---
+
+<Layout
+  title="Especialidades de massagem em Campinas | Priscila"
+  description="Conheça as modalidades de massagem da Priscila em Campinas. Nuru, Tântrica e Vivência Mútua para homens, com reserva de horário."
+>
+  <section class="page-hero">
+    <div class="container">
+      <nav class="breadcrumb" aria-label="Caminho da página">
+        <a href="/">Home</a>
+        <span aria-hidden="true">/</span>
+        <span>Especialidades</span>
+      </nav>
+      <p class="eyebrow">Especialidades</p>
+      <h1>Massagem em Campinas: encontre seu momento de bem-estar</h1>
+      <p>
+        Conheça cada modalidade, entenda o formato da sessão e converse com a
+        Priscila para confirmar os detalhes e reservar seu horário.
+      </p>
+    </div>
+  </section>
+  <section class="section">
+    <div class="container">
+      <h2 class="section-heading">Conheça as modalidades de massagem</h2>
+      <ServiceCards items={services} />
+      <div class="center actions">
+        <CTA label="Converse sobre sua sessão" />
+      </div>
+    </div>
+  </section>
+  <Locations />
+</Layout>

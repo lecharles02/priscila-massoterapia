@@ -1,0 +1,103 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Placeholder from "../components/Placeholder.astro";
+import CTA from "../components/CTA.astro";
+import { articles } from "../data/articles";
+import { services } from "../data/services";
+export function getStaticPaths() {
+  return articles.map((article) => ({
+    params: { slug: article.slug },
+    props: { article },
+  }));
+}
+const { article } = Astro.props;
+const relatedService = services.find(
+  (service) => service.slug === article.related,
+)!;
+const base = Astro.site || new URL("http://localhost:4321");
+const schema = {
+  "@type": "BlogPosting",
+  headline: article.title,
+  description: article.description,
+  author: { "@type": "Organization", "@id": new URL("/#business", base).href, name: "Priscila Massoterapia", url: new URL("/sobre-priscila/", base).href },
+  image: new URL(article.image, base).href,
+  inLanguage: "pt-BR",
+  publisher: { "@id": new URL("/#business", base).href },
+  mainEntityOfPage: new URL(`/${article.slug}/`, base).href,
+};
+---
+
+<Layout
+  title={`${article.title} | Priscila`}
+  description={article.description}
+  schema={schema}
+>
+  <section class="page-hero">
+    <div class="container">
+      <nav class="breadcrumb" aria-label="Caminho da página">
+        <a href="/">Home</a>
+        <span aria-hidden="true">/</span>
+        <a href="/blog/">Blog</a>
+      </nav>
+      <p class="eyebrow">{article.category}</p>
+      <h1>{article.title}</h1>
+      <p>{article.description}</p>
+    </div>
+  </section>
+  <div class="container section article-layout">
+    <article class="prose">
+      <Placeholder
+        label={article.imageLabel}
+        src={article.image}
+        variant="article-cover"
+      />
+      {article.sections.map((section) => (
+        <section>
+          <h2>{section.title}</h2>
+          {section.paragraphs.map((paragraph) => (
+            <p>{paragraph}</p>
+          ))}
+        </section>
+      ))}
+      {"source" in article && article.source && (
+        <p>
+          Fonte de informação:{" "}
+          <a
+            href={article.source.url}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            {article.source.label}
+          </a>
+          .
+        </p>
+      )}
+      <h2>Conheça também</h2>
+      <p>
+        <a href={`/especialidades/${article.related}/`}>
+          {relatedService.name} em Campinas
+        </a>{" "}
+        · <a href="/contato/">Contato e horários de Priscila</a>
+      </p>
+      <CTA />
+    </article>
+    <aside class="article-sidebar">
+      <h2>Sua pausa começa aqui</h2>
+      <p>
+        Consulte a disponibilidade com Priscila em Campinas. O atendimento é
+        feito com reserva de horário.
+      </p>
+      <CTA label="Agendar uma sessão" />
+      <h2 style="margin-top:28px">Continue lendo</h2>
+      <ul>
+        {articles
+          .filter((item) => item.slug !== article.slug)
+          .map((item) => (
+            <li>
+              <a href={`/${item.slug}/`}>{item.title}</a>
+            </li>
+          ))}
+      </ul>
+    </aside>
+  </div>
+</Layout>

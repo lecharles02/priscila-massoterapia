@@ -1,0 +1,23 @@
+---
+import { site } from "../data/site";
+import CTA from "./CTA.astro";
+---
+
+<section class="section location-section" aria-labelledby="locations-title">
+  <div class="container location-heading">
+    <h2 id="locations-title" data-anim="lines">
+      Seu momento, em um <em>espaço particular.</em>
+    </h2>
+    <div class="location-private" data-anim="fade-up">
+      <p>
+        <strong>{site.locationLabel}.</strong>
+      </p>
+      <p>
+        Atendimento em local próprio e particular, com garagem e reserva de
+        horário.
+      </p>
+      <p>{site.locationPrivacy}</p>
+      <CTA label="Pedir localização pelo WhatsApp" />
+    </div>
+  </div>
+</section>

@@ -1,0 +1,84 @@
+---
+import { site } from "../data/site";
+import Placeholder from "./Placeholder.astro";
+import GalleryNotice from "./GalleryNotice.astro";
+import CTA from "./CTA.astro";
+---
+
+<section id="galeria" class="gallery-section" aria-label="Galeria de fotos de Priscila">
+  <div class="gallery-container">
+  
+    <div
+      class="gallery-carousel"
+      data-gallery
+      role="region"
+      aria-label="Fotos de Priscila, com rolagem horizontal"
+      tabindex="0"
+      data-lenis-prevent
+    >
+      <div class="gallery gallery-track">
+        {site.gallery.map((photo) => (
+          <Placeholder src={photo.src} label={photo.label} />
+        ))}
+      </div>
+    </div>
+    <GalleryNotice />
+    <div class="gallery-controls">
+      <button
+        type="button"
+        class="gallery-control"
+        data-gallery-prev
+        aria-label="Ver fotos anteriores"
+      >
+        <svg
+          width="20"
+          height="20"
+          viewBox="0 0 24 24"
+          fill="none"
+          aria-hidden="true"
+        >
+          <path
+            d="m14 6-6 6 6 6"
+            stroke="currentColor"
+            stroke-width="1.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+        </svg>
+      </button>
+      <button
+        type="button"
+        class="gallery-toggle"
+        data-gallery-toggle
+        aria-pressed="false"
+      >
+        Pausar movimento
+      </button>
+      <button
+        type="button"
+        class="gallery-control"
+        data-gallery-next
+        aria-label="Ver próximas fotos"
+      >
+        <svg
+          width="20"
+          height="20"
+          viewBox="0 0 24 24"
+          fill="none"
+          aria-hidden="true"
+        >
+          <path
+            d="m10 6 6 6-6 6"
+            stroke="currentColor"
+            stroke-width="1.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+        </svg>
+      </button>
+    </div>
+    <div class="center actions">
+      <CTA />
+    </div>
+  </div>
+</section>

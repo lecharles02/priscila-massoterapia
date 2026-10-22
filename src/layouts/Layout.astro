@@ -1,0 +1,368 @@
+---
+import "../styles/global.css";
+import { site, nav } from "../data/site";
+import { services } from "../data/services";
+import WhatsAppIcon from "../components/WhatsAppIcon.astro";
+import CTA from "../components/CTA.astro";
+import "lenis/dist/lenis.css";
+interface Props {
+  title: string;
+  description: string;
+  schema?: Record<string, unknown>;
+  noindex?: boolean;
+}
+const { title, description, schema, noindex = false } = Astro.props;
+const base = Astro.site || new URL("https://priscilamassagemsp.com.br");
+const canonical = new URL(Astro.url.pathname, base).href;
+const preview = ["localhost", "127.0.0.1"].includes(base.hostname);
+const home = Astro.url.pathname === "/";
+const website = { "@context": "https://schema.org", "@type": "WebSite", "@id": new URL("/#website", base).href, url: base.href, name: site.name, inLanguage: "pt-BR", publisher: { "@id": new URL("/#business", base).href } };
+const segments = Astro.url.pathname.split("/").filter(Boolean);
+const articlePage = schema?.["@type"] === "BlogPosting";
+const breadcrumb = !home ? { "@context": "https://schema.org", "@type": "BreadcrumbList", itemListElement: [{ "@type": "ListItem", position: 1, name: "Início", item: base.href }, ...(segments.length > 1 || articlePage ? [{ "@type": "ListItem", position: 2, name: articlePage ? "Blog" : "Massagens", item: new URL(articlePage ? "/blog/" : "/especialidades/", base).href }] : []), { "@type": "ListItem", position: segments.length > 1 || articlePage ? 3 : 2, name: title.split("|")[0].trim(), item: canonical }] } : null;
+const business = {
+  "@context": "https://schema.org",
+  "@type": "HealthAndBeautyBusiness",
+  "@id": new URL("/#business", base).href,
+  name: site.name,
+  description: "Massoterapeuta tântrica em Campinas, especialista em Nuru. Atendimento individual para homens, com reserva de horário, em espaço particular com garagem.",
+  logo: new URL("/images/priscila-logo-v2.webp", base).href,
+  url: base.href,
+  telephone: `+${site.phoneDigits}`,
+  areaServed: [
+    { "@type": "City", name: site.city },
+    ...site.neighborhoods.map((name) => ({
+      "@type": "Place",
+      name,
+      containedInPlace: { "@type": "City", name: site.city },
+    })),
+  ],
+  sameAs: [site.googleProfileUrl],
+  image: new URL(site.media.hero, base).href,
+  openingHoursSpecification: [
+    {
+      "@type": "OpeningHoursSpecification",
+      dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+      opens: "09:30",
+      closes: "19:00",
+    },
+  ],
+};
+---
+
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link
+      rel="preload"
+      href="/fonts/figtree-variable.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+    <link
+      rel="preload"
+      href="/fonts/fraunces-variable.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <meta
+      name="robots"
+      content={
+        preview || noindex
+          ? "noindex, follow"
+          : "index, follow, max-image-preview:large"
+      }
+    />
+    <meta name="theme-color" content="#342a38" />
+    <link rel="icon" href="/favicon.svg?v=2" type="image/svg+xml" />
+    <link rel="icon" href="/favicon.png?v=2" type="image/png" sizes="64x64" />
+    <link rel="apple-touch-icon" href="/favicon.png?v=2" />
+    <meta
+      property="og:type"
+      content={schema?.["@type"] === "BlogPosting" ? "article" : "website"}
+    />
+    <meta property="og:locale" content="pt_BR" />
+    <meta property="og:site_name" content={site.name} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={new URL("/og.png", base).href} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Priscila — Massagem em Campinas" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={new URL("/og.png", base).href} />
+    <script
+      type="application/ld+json"
+      set:html={JSON.stringify(business).replace(/</g, "\\u003c")}
+    />
+    <script type="application/ld+json" set:html={JSON.stringify(website).replace(/</g, "\\u003c")} />
+    {breadcrumb && <script type="application/ld+json" set:html={JSON.stringify(breadcrumb).replace(/</g, "\\u003c")} />}
+    {schema && (
+      <script
+        type="application/ld+json"
+        set:html={JSON.stringify({
+          "@context": "https://schema.org",
+          ...schema,
+        }).replace(/</g, "\\u003c")}
+      />
+    )}
+  </head>
+  <body class:list={{ "home-page": home }}>
+    {home && (
+      <>
+        <div class="intro-screen" aria-hidden="true">
+          {site.media.intro && (
+            <img
+              class="section-backdrop"
+              src={site.media.intro}
+              alt=""
+              width="1920"
+              height="1280"
+              decoding="async"
+            />
+          )}
+          <div class="intro-signature">
+            <div class="intro-mark">
+              <img
+                src="/images/priscila-logo-v2.webp"
+                alt=""
+                width="144"
+                height="144"
+              />
+              <span class="intro-mark-base"></span>
+              <span class="intro-mark-fill"></span>
+            </div>
+            <span class="intro-name">Priscila</span>
+            <span class="intro-tagline">Massoterapeuta tântrica</span>
+          </div>
+        </div>
+        <script is:inline data-intro-bootstrap>
+          (() => {
+            const root = document.documentElement;
+            const finish = () => {
+              root.classList.remove(
+                "intro-active",
+                "intro-ready",
+                "intro-leaving",
+              );
+              root.classList.add("intro-complete");
+              document.dispatchEvent(new Event("brandintro:complete"));
+            };
+            if (
+              matchMedia("(prefers-reduced-motion: reduce)").matches ||
+              location.hash
+            ) {
+              finish();
+              return;
+            }
+            root.classList.add("intro-active");
+            const fallback = setTimeout(finish, 6000);
+            const prepare = () => {
+              const logo = document.querySelector(".intro-mark img");
+              if (!logo) {
+                clearTimeout(fallback);
+                finish();
+                return;
+              }
+              const reveal = () => {
+                root.classList.add("intro-ready");
+                setTimeout(() => {
+                  root.classList.add("intro-leaving");
+                  setTimeout(() => {
+                    clearTimeout(fallback);
+                    finish();
+                  }, 650);
+                }, 2200);
+              };
+              if (logo instanceof HTMLImageElement)
+                logo.decode().then(reveal, reveal);
+              else reveal();
+            };
+            if (document.readyState === "loading")
+              document.addEventListener("DOMContentLoaded", prepare, {
+                once: true,
+              });
+            else prepare();
+            window.addEventListener("pageshow", (event) => {
+              if (event.persisted) finish();
+            });
+          })();
+        </script>
+      </>
+    )}
+    <a class="skip-link" href="#content">
+      Ir para o conteúdo
+    </a>
+    <div class="topbar">Priscila · Massagem e bem-estar em Campinas</div>
+    <header class="site-header">
+      <div class="container header-inner">
+        <a class="brand" href="/">
+          <img
+            class="brand-mark"
+            src="/images/priscila-logo-v2.webp"
+            alt=""
+            width="52"
+            height="52"
+          />
+          <div>
+            <span>Priscila</span>
+            <small>Massoterapeuta tântrica</small>
+          </div>
+        </a>
+        <nav class="desktop-nav" aria-label="Navegação principal">
+          {nav.map((item) => (
+            <a
+              href={item.href}
+              aria-current={
+                Astro.url.pathname === item.href ? "page" : undefined
+              }
+            >
+              {item.label}
+            </a>
+          ))}
+        </nav>
+        <a class="header-contact" href={`tel:+${site.phoneDigits}`}>
+          <small>Atendimento</small>
+          {site.phone}
+        </a>
+        <details class="mobile-nav">
+          <summary aria-label="Abrir menu de navegação">
+            <span aria-hidden="true">☰</span>
+          </summary>
+          <nav aria-label="Navegação mobile">
+            {nav.map((item) => (
+              <a
+                href={item.href}
+                aria-current={
+                  Astro.url.pathname === item.href ? "page" : undefined
+                }
+              >
+                {item.label}
+              </a>
+            ))}
+            <a href={site.whatsapp} target="_blank" rel="noopener noreferrer">
+              Agendar sessão ↗
+            </a>
+          </nav>
+        </details>
+      </div>
+    </header>
+    <main id="content">
+      <slot />
+    </main>
+    <section class="popular" aria-labelledby="popular-title">
+      <div class="container">
+        <h2 id="popular-title">Massagens mais buscadas em Campinas</h2>
+        <nav class="popular-links" aria-label="Massagens mais buscadas">
+          {services.map((service) => (
+            <a href={`/especialidades/${service.slug}/`}>{service.name}</a>
+          ))}
+        </nav>
+      </div>
+    </section>
+    <section
+      class:list={[
+        "final-cta",
+        { "has-background": Boolean(site.media.finalCta) },
+      ]}
+      aria-labelledby="final-cta-title"
+    >
+      {site.media.finalCta && (
+        <img
+          class="section-backdrop"
+          src={site.media.finalCta}
+          alt=""
+          width="1920"
+          height="1280"
+          loading="lazy"
+          decoding="async"
+        />
+      )}
+      <div class="container final-cta-inner">
+        <div data-anim="fade-up">
+          <h2 id="final-cta-title" data-anim="text-fill">
+            Reserve um momento <em>só seu.</em>
+          </h2>
+          <p>
+            Converse comigo, tire suas dúvidas e reserve seu horário em
+            Campinas.
+          </p>
+        </div>
+        <CTA label="Agendar minha sessão" />
+      </div>
+    </section>
+    <footer class="site-footer">
+      <div class="container footer-grid">
+        <div>
+          <a class="brand footer-brand" href="/">
+            <img
+              class="brand-mark"
+              src="/images/priscila-logo-v2.webp"
+              alt=""
+              width="52"
+              height="52"
+            />
+            <div>
+              <span>Priscila</span>
+              <small>Massoterapeuta tântrica</small>
+            </div>
+          </a>
+          <p>Uma pausa na rotina para cuidar de você.</p>
+        </div>
+        <div>
+          <h2>Meu atendimento</h2>
+          <p>
+            Massoterapeuta tântrica em Campinas, especialista em Nuru.
+            Atendimento para homens, com reserva de horário.
+          </p>
+        </div>
+        <div>
+          <h2>Acesso rápido</h2>
+          <nav aria-label="Navegação do rodapé">
+            {nav.map((item) => (
+              <a href={item.href}>{item.label}</a>
+            ))}
+          </nav>
+        </div>
+        <div>
+          <h2>Contato e horários</h2>
+          <a href={`tel:+${site.phoneDigits}`}>{site.phone}</a>
+          <p>
+            {site.hours.weekday}
+            <br />
+            {site.hours.saturday}
+          </p>
+          <p>
+            Cambuí e Nova Campinas · Campinas
+            <br />
+            {site.locationPrivacy}
+          </p>
+        </div>
+      </div>
+      <div class="footer-bottom container">
+        <span>© {new Date().getFullYear()} Priscila</span>
+        <a href="/politica-de-privacidade/">Política de privacidade</a>
+      </div>
+    </footer>
+    <a
+      class="floating-contact"
+      href={site.whatsapp}
+      target="_blank"
+      rel="noopener noreferrer"
+      aria-label="Agendar sessão pelo WhatsApp"
+    >
+      <WhatsAppIcon size={30} />
+    </a>
+    <script src="../scripts/animations.js"></script>
+  </body>
+</html>

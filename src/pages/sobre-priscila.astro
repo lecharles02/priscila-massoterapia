@@ -1,0 +1,40 @@
+---
+import Layout from "../layouts/Layout.astro";
+import About from "../components/About.astro";
+import Placeholder from "../components/Placeholder.astro";
+import CTA from "../components/CTA.astro";
+import { site } from "../data/site";
+import GalleryNotice from "../components/GalleryNotice.astro";
+---
+
+<Layout
+  title="Conheça Priscila | Massoterapeuta tântrica em Campinas"
+  description="Priscila é massoterapeuta tântrica em Campinas, especialista em Nuru. Conheça seu trabalho, as fotos e o atendimento para homens com reserva de horário."
+>
+  <section class="page-hero">
+    <div class="container">
+      <h1>
+        Conheça Priscila, <em>massoterapeuta em Campinas.</em>
+      </h1>
+      <p>
+        Nuru, massagem tântrica e vivência mútua. Atendimento individual para
+        homens, com os detalhes conversados antes da sessão.
+      </p>
+    </div>
+  </section>
+  <About />
+  <section class="section">
+    <div class="container">
+      <h2>Um pouco mais sobre mim</h2>
+      <GalleryNotice />
+      <div class="gallery-page">
+        {site.gallery.map((photo) => (
+          <Placeholder label={photo.label} src={photo.src} />
+        ))}
+      </div>
+      <div class="actions">
+        <CTA label="Converse comigo" />
+      </div>
+    </div>
+  </section>
+</Layout>

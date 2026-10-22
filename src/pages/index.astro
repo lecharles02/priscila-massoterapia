@@ -1,0 +1,153 @@
+---
+import Layout from "../layouts/Layout.astro";
+import CTA from "../components/CTA.astro";
+import ServiceCards from "../components/ServiceCards.astro";
+import About from "../components/About.astro";
+import Reviews from "../components/Reviews.astro";
+import BlogCards from "../components/BlogCards.astro";
+import Locations from "../components/Locations.astro";
+import { site } from "../data/site";
+import Gallery from "../components/Gallery.astro";
+const steps = [
+  [
+    "Chame no WhatsApp",
+    "Envie uma mensagem para começar. Você pode tirar suas dúvidas e consultar as modalidades disponíveis.",
+  ],
+  [
+    "Conte o que você precisa",
+    "Conversamos para entender como posso ajudar, suas preferências e o que você busca para esse momento.",
+  ],
+  [
+    "Agende seu horário",
+    "Combinamos a modalidade, a duração e os valores. Depois, confirmamos um horário que funcione para você.",
+  ],
+  [
+    "Chegue e desacelere",
+    "No dia combinado, venha ao espaço. Alinhamos os últimos detalhes para você aproveitar sua sessão.",
+  ],
+];
+---
+
+<Layout
+  title="Priscila | Massagem Nuru e Tântrica em Campinas"
+  description="Priscila, massoterapeuta tântrica em Campinas e especialista em Nuru. Atendimento para homens, com reserva de horário. Converse pelo WhatsApp."
+>
+  <section
+    class:list={[
+      "hero",
+      "hero-background",
+      { "has-background": Boolean(site.media.hero) },
+    ]}
+  >
+    {site.media.hero && (
+      <picture class="section-backdrop">
+        <source media="(max-width: 767px)" srcset={site.media.heroMobile} />
+        <img
+          class="section-backdrop"
+          src={site.media.hero}
+          alt=""
+          width="1672"
+          height="941"
+          loading="eager"
+          fetchpriority="high"
+          decoding="async"
+        />
+      </picture>
+    )}
+    <div class="container hero-inner">
+      <div class="hero-content">
+        <h1>
+          Massagem tântrica em Campinas. <em>Seu momento de pausa.</em>
+        </h1>
+        <p class="lead">
+          Sou Priscila, massoterapeuta tântrica e especialista em Nuru. Um
+          atendimento dedicado a homens, com atenção ao seu momento.
+        </p>
+        <CTA label="Converse comigo no WhatsApp" />
+        <p class="hero-note">Atendimento individual · Reserva de horário</p>
+      </div>
+    </div>
+  </section>
+  <div class="trust-wrap">
+    <div class="container">
+      <div class="trust-bar">
+        <p class="trust-label">Seu horário, reservado.</p>
+        <div class="trust-units">
+          <a href="/contato/">
+            Segunda a sexta<span>Das 9h30 às 19h</span>
+          </a>
+          <a href="/contato/">
+            Sábado<span>Atendimento até as 15h</span>
+          </a>
+        </div>
+        <CTA label="Consultar horários" />
+      </div>
+    </div>
+  </div>
+  <section class="section services-section" aria-labelledby="services-title">
+    <div class="container">
+      <div class="section-heading">
+        <p class="eyebrow">Especialidades</p>
+        <h2 id="services-title" data-anim="text-fill">
+          Três formas de dedicar <em>tempo a você.</em>
+        </h2>
+        <p>
+          Seu momento de pausa merece atenção. Conheça as modalidades de
+          massagem em Campinas e consulte qual experiência combina com suas
+          preferências.
+        </p>
+      </div>
+      <ServiceCards />
+
+    </div>
+  </section>
+  <About />
+  <Gallery />
+  <section class="booking-section" aria-labelledby="booking-title">
+    <div class="container">
+      <div class="section-heading">
+        <h2 id="booking-title" data-anim="text-fill">
+          Sua pausa começa com <em>uma conversa.</em>
+        </h2>
+        <p>
+          Do primeiro WhatsApp à sua sessão, seguimos juntos em quatro passos
+          simples.
+        </p>
+      </div>
+      <ol class="booking-roadmap" data-anim-group>
+        {steps.map(([title, description], index) => (
+          <li data-anim="fade-up">
+            <span class="step-number" aria-hidden="true">
+              {String(index + 1).padStart(2, "0")}
+            </span>
+            <h3>{title}</h3>
+            <p>{description}</p>
+          </li>
+        ))}
+      </ol>
+      <CTA label="Vamos conversar no WhatsApp" />
+    </div>
+  </section>
+  <Reviews />
+  <section class="section" aria-labelledby="blog-title">
+    <div class="container">
+      <div class="section-heading">
+        <p class="eyebrow">Blog</p>
+        <h2 id="blog-title" data-anim="lines">
+          Antes da sessão, <em>clareza e tranquilidade.</em>
+        </h2>
+        <p>
+          Informações sobre modalidades, preparação para a sessão e como
+          escolher seu espaço de massagem em Campinas.
+        </p>
+      </div>
+      <BlogCards preview />
+      <div class="center actions">
+        <a class="button button-gold" href="/blog/">
+          Ver todos os blogs <span aria-hidden="true">→</span>
+        </a>
+      </div>
+    </div>
+  </section>
+  <Locations />
+</Layout>

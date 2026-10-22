@@ -1,0 +1,46 @@
+---
+import Layout from "../layouts/Layout.astro";
+import CTA from "../components/CTA.astro";
+import Locations from "../components/Locations.astro";
+import { site } from "../data/site";
+---
+
+<Layout
+  title="Contato e horários | Priscila Massoterapia em Campinas"
+  description="Fale com Priscila no WhatsApp. Atendimento na região do Cambuí e Nova Campinas, em espaço particular com garagem e endereço reservado."
+>
+  <section class="page-hero">
+    <div class="container">
+      <h1>
+        Vamos conversar sobre <em>seu momento?</em>
+      </h1>
+      <p>
+        Chame no WhatsApp para conhecer as modalidades, consultar os valores e
+        reservar seu horário com Priscila.
+      </p>
+      <CTA label="Falar com Priscila" />
+    </div>
+  </section>
+  <section class="section">
+    <div class="container contact-intro">
+      <h2>Atendimento com reserva de horário</h2>
+      <dl class="contact-details">
+        <dt>Segunda a sexta</dt>
+        <dd>Das 9h30 às 19h</dd>
+        <dt>Sábado</dt>
+        <dd>Até as 15h</dd>
+        <dt>WhatsApp</dt>
+        <dd>
+          <a href={site.whatsapp}>{site.phone}</a>
+        </dd>
+        <dt>Localização</dt>
+        <dd>
+          {site.locationLabel}. {site.locationPrivacy}
+        </dd>
+        <dt>Espaço</dt>
+        <dd>Local próprio e particular, com garagem.</dd>
+      </dl>
+    </div>
+  </section>
+  <Locations />
+</Layout>

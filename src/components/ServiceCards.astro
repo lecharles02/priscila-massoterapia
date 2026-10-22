@@ -1,0 +1,25 @@
+---
+import { services } from "../data/services";
+interface Props {
+  items?: typeof services;
+}
+const { items = services } = Astro.props;
+const symbols: Record<string, string> = {
+  "massagem-nuru-em-campinas": "M32 8C25 20 16 28 16 39a16 16 0 0 0 32 0C48 28 39 20 32 8Z M24 40c0 6 3 9 8 9",
+  "massagem-tantrica-em-campinas": "M7 51h50 M12 43c0-5 4-9 9-9h16c8 0 15 4 15 9H12Z M19 26a5 5 0 1 0-10 0a5 5 0 0 0 10 0Z M30 10v12l6 7 M44 10v12l-6 7 M27 28l5 5h10l5-5",
+  "vivencia-mutua-em-campinas": "M32 52 12 33C5 26 5 17 12 12s16-4 20 4c4-8 13-9 20-4s7 14 0 21L32 52Z",
+};
+---
+<div class="service-grid" data-anim-group>
+  {items.map((service) => (
+    <article class="service-card service-card-icon" data-anim="fade-up">
+      <div class="card-body">
+        <svg class="massage-symbol" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d={symbols[service.slug]} />
+        </svg>
+        <h3>{service.name}</h3>
+        <p>{service.summary}</p>
+      </div>
+    </article>
+  ))}
+</div>

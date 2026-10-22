@@ -1,0 +1,15 @@
+---
+interface Props {
+  size?: number;
+}
+const { size = 22 } = Astro.props;
+---
+
+<img
+  class="whatsapp-icon"
+  src="/icons/whatsapp.svg"
+  width={size}
+  height={size}
+  alt=""
+  aria-hidden="true"
+/>

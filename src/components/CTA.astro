@@ -1,0 +1,15 @@
+---
+import { site } from "../data/site";
+import WhatsAppIcon from "./WhatsAppIcon.astro";
+const { label = "Agende sua sessão agora", secondary = false } = Astro.props;
+---
+
+<a
+  class:list={["button", secondary ? "button-outline" : "button-green"]}
+  href={site.whatsapp}
+  target="_blank"
+  rel="noopener noreferrer"
+>
+  <WhatsAppIcon />
+  {label}
+</a>

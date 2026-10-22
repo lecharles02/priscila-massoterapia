@@ -1,0 +1,10 @@
+import sharp from 'sharp';
+import {writeFile} from 'node:fs/promises';
+const mark=await sharp('assets-source/priscila-logo-v2-original.png').trim().resize(256,256,{fit:'contain',background:{r:0,g:0,b:0,alpha:0}}).png().toBuffer();
+await sharp(mark).webp({lossless:true}).toFile('public/images/priscila-logo-v2.webp');
+await sharp(mark).resize(64,64).png().toFile('public/favicon.png');
+const bg=await sharp('public/images/hero-2.webp').resize(1200,630,{fit:'cover'}).png().toBuffer();
+const shade=Buffer.from('<svg width="1200" height="630"><rect width="1200" height="630" fill="#342a38" opacity=".58"/><text x="80" y="240" fill="white" font-family="Georgia" font-size="80">Priscila</text><text x="80" y="310" fill="white" font-family="Arial" font-size="32">Massoterapia em Campinas</text><text x="80" y="370" fill="white" font-family="Arial" font-size="24">Nuru · Tântrica · Vivência Mútua</text></svg>');
+await sharp(bg).composite([{input:shade}]).png().toFile('public/og.png');
+await writeFile('public/og.svg','<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630"><rect width="1200" height="630" fill="#342a38"/><text x="80" y="270" fill="white" font-family="Georgia" font-size="80">Priscila</text><text x="80" y="340" fill="white" font-family="Arial" font-size="32">Massoterapia em Campinas</text></svg>');
+console.log('Logo, favicon e imagem social prontos.');

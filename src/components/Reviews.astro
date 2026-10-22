@@ -1,0 +1,32 @@
+---
+import { site } from "../data/site";
+import { reviews } from "../data/reviews";
+const { headingLevel = 2 } = Astro.props;
+const Heading = headingLevel === 1 ? "h1" : "h2";
+---
+
+<section class="section review-section" aria-labelledby="reviews-title">
+  <div class="container">
+    <div class="section-heading">
+      <Heading id="reviews-title" data-anim="lines">
+        Experiências de quem conhece Priscila
+      </Heading>
+      <p>
+        Um espaço para compartilhar relatos sobre a atenção, o cuidado e o
+        atendimento.
+      </p>
+    </div>
+    <div class="review-invite"><span class="google-mark" aria-hidden="true">G</span><span class="review-stars" aria-hidden="true">★★★★★</span><a class="button button-gold review-button" href={site.googleReviewUrl} target="_blank" rel="noopener noreferrer">Deixe sua avaliação no Google ↗</a></div>
+    <div class="review-grid" data-anim-group>
+      {reviews.map((review) => (
+        <article class="review-placeholder" data-anim="fade-up">
+          <span class="quote" aria-hidden="true">
+            “
+          </span>
+          <p>{review.text}</p>
+          <span class="review-label">{review.author}</span>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>
